@@ -6,7 +6,7 @@
     <title>Champions League</title>
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
-<body>
+<body class="bg-light">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{route('home')}}">Insider (Formerly SOCIAPlus) Champions League</a>
