@@ -30,3 +30,11 @@ services:
       - MYSQL_DATABASE=${DB_DATABASE}
     ports:
       - ${DB_PORT}:3306
+
+  node:
+    image: node:alpine
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./:/app
+
