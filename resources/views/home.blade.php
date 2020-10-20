@@ -1,48 +1,56 @@
+<?php /** @var \App\Services\League\LeagueTableRow $row */ ?>
+<? /** @var \App\Services\League\PredictionOfChampionship $prediction */ ?>
+
 @extends('layouts.main')
 
 @section('content')
     <div class="row py-3">
         @if(is_null($lastWeek))
-            <div class="col-md-12">
-                <h1>There are no played matches</h1>
-            </div>
-            <br>
-            <div class="col-md-4">
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th colspan="2">
-                            Waiting 1-th week matches
-                            <form class="d-inline" method="POST" action="{{route('matches.play')}}">
-                                @csrf
-                                <input type="hidden" name="week" value="1">
-                                <button class="btn btn-success btn-sm">Simulate</button>
-                            </form>
-
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($firstWeekMatches as $match)
+            @if($firstWeekMatches->count())
+                <div class="col-md-12">
+                    <h1>There are no played matches</h1>
+                </div>
+                <br>
+                <div class="col-md-4">
+                    <table class="table table-bordered">
+                        <thead>
                         <tr>
-                            @foreach($match->teams as $team)
-                                <th>{{$team->name}}</th>
-                            @endforeach
+                            <th colspan="2">
+                                Waiting 1-th week matches
+                                <form class="d-inline" method="POST" action="{{route('matches.play')}}">
+                                    @csrf
+                                    <input type="hidden" name="week" value="1">
+                                    <button class="btn btn-success btn-sm">Simulate</button>
+                                </form>
+
+                            </th>
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-
+                        </thead>
+                        <tbody>
+                        @foreach($firstWeekMatches as $match)
+                            <tr>
+                                @foreach($match->teams as $team)
+                                    <th>{{$team->name}}</th>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <form class="d-inline float-right" method="POST" action="{{route('matches.init')}}">
+                    @csrf
+                    <button class="btn btn-primary btn-sm">Init championship</button>
+                </form>
+            @endif
         @else
-            <div class="col-md-8 bg-white">
+            <div class="col-md-9 bg-white">
                 <div class="row py-3">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th colspan="7" class="text-center" >{{$league->name}} Table</th>
+                                <th colspan="9" class="text-center">{{ $league->name }} Table</th>
                             </tr>
                             <tr>
                                 <th scope="col">Teams</th>
@@ -51,25 +59,29 @@
                                 <th scope="col" title="Won">W</th>
                                 <th scope="col" title="Drawn">D</th>
                                 <th scope="col" title="Lost">L</th>
+                                <th scope="col" title="Goal For">GF</th>
+                                <th scope="col" title="Goal Against">GA</th>
                                 <th scope="col" title="Goal Difference">GD</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($teams as $team)
+                            @foreach($leagueTableContent as $row)
                                 <tr>
-                                    <td>{{$team->name}}</td>
-                                    <td>-</td>
-                                    <td>{{$team->matches_count}}</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
+                                    <td>{{ $row->getName() }}</td>
+                                    <td>{{ $row->getPoints() }}</td>
+                                    <td>{{ $row->getPlayed() }}</td>
+                                    <td>{{ $row->getWon() }}</td>
+                                    <td>{{ $row->getDrawn() }}</td>
+                                    <td>{{ $row->getLost() }}</td>
+                                    <td>{{ $row->getGF() }}</td>
+                                    <td>{{ $row->getGA() }}</td>
+                                    <td>{{ $row->getGD() }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -82,13 +94,13 @@
                             <tbody>
                                 @foreach($lastWeekMatches as $match)
                                     <tr>
-                                        <th scope="col">{{$match->teams[0]->name}}</th>
+                                        <th scope="col">{{ $match->firstTeam()->name }}</th>
                                         <th scope="col">
-                                            {{$match->teams[0]->pivot->goals ?? 0}}
+                                            {{ $match->firstTeam()->pivot->goals }}
                                             -
-                                            {{$match->teams[1]->pivot->goals ?? 0}}
+                                            {{ $match->secondTeam()->pivot->goals }}
                                         </th>
-                                        <th scope="col">{{$match->teams[1]->name}}</th>
+                                        <th scope="col">{{ $match->secondTeam()->name }}</th>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -107,7 +119,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 bg-white">
+            <div class="col-md-3 bg-white">
                 <div class="row pt-3 pr-3">
                     <table class="table table-bordered">
                         <thead>
@@ -116,10 +128,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($teams as $team)
+                        @foreach($predictionsOfChampionship as $prediction)
                             <tr>
-                                <th scope="col">{{$team->name}}</th>
-                                <th scope="col">%45</th>
+                                <th scope="col">{{ $prediction->getTeamName() }}</th>
+                                <th scope="col">{{ $prediction->getPercent() }}%</th>
                             </tr>
                         @endforeach
                         </tbody>

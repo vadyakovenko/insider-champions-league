@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Services\League;
 
 use App\Models\League;
 use App\Services\Match\CreateMatchDTO;
@@ -57,7 +57,6 @@ final class LeagueService
             for ($j = $i+1; $j < $teams->count(); $j++) {
                 if (isset($teams[$j])) {
                     $groups[] = [$teams[$i], $teams[$j]];
-
                 }
             }
         }
@@ -72,13 +71,13 @@ final class LeagueService
         }
 
         foreach ($items as $k => $item) {
-            foreach ($exceptTeams as $exceptTeam) {
+            foreach ($exceptTeams as $j => $exceptTeam) {
                 if (
                     ($item[0]->id == $exceptTeam->id)
                     || ($item[1]->id == $exceptTeam->id)
                 ) {
-                    continue;
-                } else {
+                    break;
+                } elseif (($j+1) == count($exceptTeams)) {
                     return $k;
                 }
             }

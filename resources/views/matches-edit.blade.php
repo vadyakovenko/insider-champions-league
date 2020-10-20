@@ -14,7 +14,6 @@
                         <th class="text-center">-</th>
                         <th class="text-center">Goals</th>
                         <th class="text-center">Second team</th>
-
                     </tr>
                 </thead>
                 <tbody>

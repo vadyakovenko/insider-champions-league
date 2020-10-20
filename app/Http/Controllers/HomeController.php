@@ -6,39 +6,38 @@ namespace App\Http\Controllers;
 
 use App\Models\League;
 use App\Models\Match;
-use App\Models\Team;
-use App\Services\LeagueService;
-use Illuminate\Database\Eloquent\Builder;
+use App\Services\League\LeagueRepository;
 
 class HomeController extends Controller
 {
-    private LeagueService $leagueService;
-
-    public function __construct(LeagueService $leagueService)
-    {
-        $this->leagueService = $leagueService;
-    }
-
-    public function index()
+    public function index(LeagueRepository $leagueRepository)
     {
         $league = League::first();
 
         $lastWeek = Match::whereNotNull('played_at')->max('week');
         $maxWeek = Match::max('week');
 
-        $teams = $lastWeekMatches = null;
-        $firstWeekMatches = null;
+        $firstWeekMatches = $lastWeekMatches = $leagueTableContent = $predictionsOfChampionship = null;
 
         if (is_null($lastWeek)) {
             $firstWeekMatches = $league->matches()->where('week', 1)->with('teams')->get();
         } else {
-            $teams = Team::withCount(['matches' => fn (Builder $q) => $q->whereNotNull('played_at')])->get();
             $lastWeekMatches = $league->matches()->where('week', $lastWeek)->with('teams')->get();
+            $leagueTableContent = $leagueRepository->getLeagueTable($league->id);
+            $predictionsOfChampionship = $leagueRepository->getPredictionsOfChampionship($leagueTableContent);
         }
 
         return view(
             'home',
-            compact('league', 'teams', 'lastWeek', 'firstWeekMatches', 'lastWeekMatches', 'maxWeek')
+            compact(
+                'league',
+                'lastWeek',
+                'firstWeekMatches',
+                'lastWeekMatches',
+                'maxWeek',
+                'leagueTableContent',
+                'predictionsOfChampionship'
+            )
         );
     }
 }

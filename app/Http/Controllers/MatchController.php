@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MatchEditRequest;
 use App\Http\Requests\MatchPlayRequest;
+use App\Models\League;
 use App\Models\Match;
 use App\Models\Team;
+use App\Services\League\LeagueService;
 use App\Services\Match\MatchService;
 use Illuminate\Support\Facades\DB;
 
@@ -18,6 +20,14 @@ class MatchController extends Controller
     public function __construct(MatchService $matchService)
     {
         $this->matchService = $matchService;
+    }
+
+    public function init(LeagueService $leagueService)
+    {
+        $league = League::first();
+        $leagueService->generateMatchesForLeague($league);
+
+        return redirect()->route('home');
     }
 
     public function play(MatchPlayRequest $request)
