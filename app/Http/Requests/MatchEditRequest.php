@@ -5,12 +5,12 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class MatchPlayRequest
+ * Class MatchEditRequest
  * @package App\Http\Requests
  *
- * @property int $week;
+ * @property int $goals
  */
-class MatchPlayRequest extends FormRequest
+class MatchEditRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -20,7 +20,7 @@ class MatchPlayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'week' => ['required', 'integer', 'min:1']
+            'goals' => ['required', 'integer', 'min:0']
         ];
     }
 }

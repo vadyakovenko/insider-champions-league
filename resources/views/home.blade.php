@@ -4,14 +4,14 @@
     <div class="row py-3">
         @if(is_null($lastWeek))
             <div class="col-md-12">
-                <h1>There is no played matches</h1>
+                <h1>There are no played matches</h1>
             </div>
             <br>
             <div class="col-md-4">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <th colspan="2" >
+                        <th colspan="2">
                             Waiting 1-th week matches
                             <form class="d-inline" method="POST" action="{{route('matches.play')}}">
                                 @csrf

@@ -33,7 +33,7 @@ final class LeagueService
         $weeksCount = (int)ceil((2 * count($groups))/$teams->count());
         $qtyMatchesPerWeek = (int)ceil(count($teams)/2);
 
-        DB::beginTransaction();;
+        DB::beginTransaction();
         for ($week = 1; $week <= $weeksCount; $week++) {
             $exceptTeams = [];
             for ($i = 1; $i <= $qtyMatchesPerWeek; $i++) {

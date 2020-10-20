@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Match;
 
 use App\Models\Match;
+use App\Models\Team;
 use App\Services\Match\MatchSimulator\MatchResult;
 use App\Services\Match\MatchSimulator\MatchSimulatorInterface;
 use Illuminate\Support\Facades\DB;
@@ -49,6 +50,14 @@ class MatchService
     {
         $result = $this->matchSimulator->simulate($match);
         $this->saveMatchResult($match, $result);
+    }
+
+    public function updateGoalsCount(Match $match, Team $team, int $goals): void
+    {
+        $foundTeam = $match->teams()->findOrFail($team->id);
+
+        $foundTeam->pivot->goals = $goals;
+        $foundTeam->pivot->save();
     }
 
     public function destroyAll(): void

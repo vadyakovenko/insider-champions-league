@@ -21,4 +21,14 @@ class Match extends Model
     {
         return $this->belongsToMany(Team::class)->withPivot(['goals']);
     }
+
+    public function firstTeam(): ?Team
+    {
+        return $this->teams[0] ?? null;
+    }
+
+    public function secondTeam(): ?Team
+    {
+        return $this->teams[1] ?? null;
+    }
 }
