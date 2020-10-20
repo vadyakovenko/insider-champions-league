@@ -10,7 +10,7 @@ use App\Services\Match\MatchSimulator\MatchResult;
 use App\Services\Match\MatchSimulator\MatchSimulatorInterface;
 use Illuminate\Support\Facades\DB;
 
-class MatchService
+final class MatchService
 {
     private MatchSimulatorInterface $matchSimulator;
 

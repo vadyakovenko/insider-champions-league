@@ -62,9 +62,6 @@ final class LeagueRepository
         }
 
         return $result->sortBy(fn (LeagueTableRow $row) => -$row->getPoints())->toArray();
-
-        return $result;
-
     }
 
     /**

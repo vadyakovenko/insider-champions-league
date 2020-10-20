@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\League;
 
-class LeagueTableRow
+final class LeagueTableRow
 {
     private string $name;
     private int $points;
