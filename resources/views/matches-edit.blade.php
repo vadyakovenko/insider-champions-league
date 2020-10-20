@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('content')
-    <div class="offset-4 col-md-4 bg-white">
-        <div class="row pt-3 pr-3">
+    <div class="offset-3 col-md-6 bg-white">
+        <div class="row pt-3 pr-3 pl-3">
             <table class="table table-bordered">
                 <thead>
                     <tr>
