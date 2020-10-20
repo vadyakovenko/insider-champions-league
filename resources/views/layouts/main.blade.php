@@ -10,7 +10,18 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{route('home')}}">Insider (Formerly SOCIAPlus) Champions League</a>
+            @if (isset($lastWeek) && $lastWeek)
+                <div class="">
+                    <a class="btn btn-sm btn-primary" href="{{route('admin.index')}}">Edit Championship</a>
+                    <form class="d-inline float-right" method="POST" action="{{route('matches.destroy')}}">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger btn-sm">RESET championship</button>
+                    </form>
+                </div>
+            @endif
         </div>
+
     </nav>
 
     <main role="main" class="container">
