@@ -6,7 +6,7 @@ namespace App\Services\Match\MatchSimulator;
 
 use App\Models\Match;
 
-class RandomMatchSimulatorInterface implements MatchSimulatorInterface
+class RandomMatchSimulator implements MatchSimulatorInterface
 {
     public function simulate(Match $match): MatchResult
     {

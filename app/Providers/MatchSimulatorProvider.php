@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Services\Match\MatchSimulator\MatchSimulatorInterface;
-use App\Services\Match\MatchSimulator\RandomMatchSimulatorInterface;
+use App\Services\Match\MatchSimulator\RandomMatchSimulator;
 use Illuminate\Support\ServiceProvider;
 
 class MatchSimulatorProvider extends ServiceProvider
@@ -15,7 +15,7 @@ class MatchSimulatorProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(MatchSimulatorInterface::class, RandomMatchSimulatorInterface::class);
+        $this->app->bind(MatchSimulatorInterface::class, RandomMatchSimulator::class);
     }
 
     /**
