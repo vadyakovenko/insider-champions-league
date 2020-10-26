@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Services\League;
+namespace App\Services\League\Repositories;
 
 use App\Models\Team;
+use App\Services\League\LeagueTableRow;
+use App\Services\League\PredictionOfChampionship;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
-final class LeagueRepository
+final class LeagueDatabaseRepository implements LeagueRepositoryInterface
 {
     /**
      * @param int $leagueId

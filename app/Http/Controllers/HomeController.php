@@ -6,17 +6,15 @@ namespace App\Http\Controllers;
 
 use App\Models\League;
 use App\Models\Match;
-use App\Services\League\LeagueRepository;
+use App\Services\League\Repositories\LeagueRepositoryInterface;
 
 class HomeController extends Controller
 {
-    public function index(LeagueRepository $leagueRepository)
+    public function index(LeagueRepositoryInterface $leagueRepository)
     {
         $league = League::first();
-
         $lastWeek = Match::whereNotNull('played_at')->max('week');
         $maxWeek = Match::max('week');
-
         $firstWeekMatches = $lastWeekMatches = $leagueTableContent = $predictionsOfChampionship = null;
 
         if (is_null($lastWeek)) {

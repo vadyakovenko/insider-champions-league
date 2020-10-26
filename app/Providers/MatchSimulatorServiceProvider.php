@@ -6,7 +6,7 @@ use App\Services\Match\MatchSimulator\MatchSimulatorInterface;
 use App\Services\Match\MatchSimulator\RandomMatchSimulator;
 use Illuminate\Support\ServiceProvider;
 
-class MatchSimulatorProvider extends ServiceProvider
+class MatchSimulatorServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
