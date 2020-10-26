@@ -23,5 +23,4 @@ class Team extends Model
     {
         return $this->belongsToMany(Match::class)->withPivot('goals');
     }
-
 }

@@ -37,7 +37,7 @@ final class MatchService
     public function saveMatchResult(Match $match, MatchResult $matchResult): Match
     {
         return DB::transaction(function () use ($match, $matchResult) {
-            $match->update(['played_at' => now()]);
+            $match->update(['played_at' => $matchResult->getPlayedAt()]);
             foreach ($match->teams as $team) {
                 $team->pivot->goals = $matchResult->getGoalsForTeam($team);
                 $team->pivot->save();
@@ -54,10 +54,7 @@ final class MatchService
 
     public function updateGoalsCount(Match $match, Team $team, int $goals): void
     {
-        $foundTeam = $match->teams()->findOrFail($team->id);
-
-        $foundTeam->pivot->goals = $goals;
-        $foundTeam->pivot->save();
+        $match->teams()->updateExistingPivot($team->getKey(), ['goals' => $goals]);
     }
 
     public function destroyAll(): void

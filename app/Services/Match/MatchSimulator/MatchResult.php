@@ -5,18 +5,26 @@ declare(strict_types=1);
 namespace App\Services\Match\MatchSimulator;
 
 use App\Models\Team;
+use Carbon\Carbon;
 
 class MatchResult
 {
-    private array $data;
+    private array $goals;
+    private Carbon $playedAt;
 
-    public function __construct(array $data)
+    public function __construct(array $goals, Carbon $playedAt)
     {
-        $this->data = $data;
+        $this->goals = $goals;
+        $this->playedAt = $playedAt;
     }
 
     public function getGoalsForTeam(Team $team): int
     {
-        return $this->data[$team->id]['goals'] ?? 0;
+        return $this->goals[$team->id]['goals'] ?? 0;
+    }
+
+    public function getPlayedAt(): Carbon
+    {
+        return $this->playedAt;
     }
 }

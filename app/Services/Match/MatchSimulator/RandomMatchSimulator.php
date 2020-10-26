@@ -10,12 +10,16 @@ class RandomMatchSimulator implements MatchSimulatorInterface
 {
     public function simulate(Match $match): MatchResult
     {
-        $teams = $match->teams;
-        $data = [
-            $teams[0]->id => ['goals' => random_int(0, 10)],
-            $teams[1]->id => ['goals' => random_int(0, 10)],
+        $goals = [
+            $match->firstTeam()->id => ['goals' => $this->generateRandomGoalsNumber()],
+            $match->secondTeam()->id => ['goals' => $this->generateRandomGoalsNumber()],
         ];
 
-        return new MatchResult($data);
+        return new MatchResult($goals, now());
+    }
+
+    private function generateRandomGoalsNumber(): int
+    {
+        return random_int(0, 9);
     }
 }
